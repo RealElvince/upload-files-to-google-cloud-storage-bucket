@@ -1,0 +1,26 @@
+
+
+services:
+  app:
+    container_name: upload_files_to_gcs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - ./scripts:/app/scripts
+      - ./gcp:/gcp
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/gcp/service_account.json
+    command: ["/bin/bash", "/app/scripts/entrypoint.sh"]
+    networks:
+      - gcs_network
+  
+
+networks:
+  gcs_network:
+    driver: bridge
+
+
+
+     
